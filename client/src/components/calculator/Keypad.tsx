@@ -15,18 +15,22 @@ export default function Keypad({ onInput }: KeypadProps) {
   ];
 
   return (
-    <div className="grid grid-cols-4 gap-2">
+    <div className="row g-2">
       {keys.map((row, i) => (
-        row.map((key, j) => (
-          <Button
-            key={`${i}-${j}`}
-            variant={/[0-9.]/.test(key) ? "outline" : "secondary"}
-            className={key === '0' ? "col-span-1" : ""}
-            onClick={() => onInput(key)}
-          >
-            {key}
-          </Button>
-        ))
+        <div key={i} className="col-12">
+          <div className="row g-2">
+            {row.map((key, j) => (
+              <div key={`${i}-${j}`} className="col-3">
+                <button
+                  className={`btn ${/[0-9.]/.test(key) ? 'btn-outline-secondary' : 'btn-secondary'} w-100`}
+                  onClick={() => onInput(key)}
+                >
+                  {key}
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
       ))}
     </div>
   );

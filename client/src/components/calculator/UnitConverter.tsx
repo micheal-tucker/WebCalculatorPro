@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const CONVERSIONS = {
   length: {
@@ -33,83 +31,80 @@ export default function UnitConverter() {
   const [fromUnit, setFromUnit] = useState('meters');
   const [toUnit, setToUnit] = useState('feet');
   const [value, setValue] = useState('1');
-  
+
   const convert = (value: string, from: string, to: string) => {
     const num = parseFloat(value);
     if (isNaN(num)) return '';
-    
+
     const rates = CONVERSIONS[category as keyof typeof CONVERSIONS].rates;
     if (from === to) return value;
-    
+
     if (category === 'temperature') {
       return rates[from][to](num).toFixed(4);
     }
-    
+
     return (num * rates[from][to]).toFixed(4);
   };
 
   return (
-    <div className="space-y-4">
-      <Select
-        value={category}
-        onValueChange={(value) => {
-          setCategory(value);
-          setFromUnit(CONVERSIONS[value as keyof typeof CONVERSIONS].units[0]);
-          setToUnit(CONVERSIONS[value as keyof typeof CONVERSIONS].units[1]);
-        }}
-      >
-        <SelectTrigger>
-          <SelectValue placeholder="Select category" />
-        </SelectTrigger>
-        <SelectContent>
+    <div className="row g-3">
+      <div className="col-12">
+        <select
+          className="form-select"
+          value={category}
+          onChange={(e) => {
+            const newCategory = e.target.value;
+            setCategory(newCategory);
+            setFromUnit(CONVERSIONS[newCategory as keyof typeof CONVERSIONS].units[0]);
+            setToUnit(CONVERSIONS[newCategory as keyof typeof CONVERSIONS].units[1]);
+          }}
+        >
           {Object.keys(CONVERSIONS).map((cat) => (
-            <SelectItem key={cat} value={cat}>
+            <option key={cat} value={cat}>
               {cat.charAt(0).toUpperCase() + cat.slice(1)}
-            </SelectItem>
+            </option>
           ))}
-        </SelectContent>
-      </Select>
+        </select>
+      </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Select value={fromUnit} onValueChange={setFromUnit}>
-            <SelectTrigger>
-              <SelectValue placeholder="From unit" />
-            </SelectTrigger>
-            <SelectContent>
-              {CONVERSIONS[category as keyof typeof CONVERSIONS].units.map((unit) => (
-                <SelectItem key={unit} value={unit}>
-                  {unit}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <Input
-            type="number"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-          />
-        </div>
+      <div className="col-6">
+        <select
+          className="form-select mb-2"
+          value={fromUnit}
+          onChange={(e) => setFromUnit(e.target.value)}
+        >
+          {CONVERSIONS[category as keyof typeof CONVERSIONS].units.map((unit) => (
+            <option key={unit} value={unit}>
+              {unit}
+            </option>
+          ))}
+        </select>
+        <input
+          type="number"
+          className="form-control"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+      </div>
 
-        <div className="space-y-2">
-          <Select value={toUnit} onValueChange={setToUnit}>
-            <SelectTrigger>
-              <SelectValue placeholder="To unit" />
-            </SelectTrigger>
-            <SelectContent>
-              {CONVERSIONS[category as keyof typeof CONVERSIONS].units.map((unit) => (
-                <SelectItem key={unit} value={unit}>
-                  {unit}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <Input
-            type="text"
-            value={convert(value, fromUnit, toUnit)}
-            readOnly
-          />
-        </div>
+      <div className="col-6">
+        <select
+          className="form-select mb-2"
+          value={toUnit}
+          onChange={(e) => setToUnit(e.target.value)}
+        >
+          {CONVERSIONS[category as keyof typeof CONVERSIONS].units.map((unit) => (
+            <option key={unit} value={unit}>
+              {unit}
+            </option>
+          ))}
+        </select>
+        <input
+          type="text"
+          className="form-control"
+          value={convert(value, fromUnit, toUnit)}
+          readOnly
+        />
       </div>
     </div>
   );

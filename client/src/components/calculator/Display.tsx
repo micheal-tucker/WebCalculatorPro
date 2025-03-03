@@ -1,5 +1,3 @@
-import { Card } from "@/components/ui/card";
-
 interface DisplayProps {
   expression: string;
   result: string;
@@ -8,16 +6,18 @@ interface DisplayProps {
 
 export default function Display({ expression, result, memory }: DisplayProps) {
   return (
-    <Card className="mb-4">
-      <div className="p-4 space-y-2">
+    <div className="card mb-4">
+      <div className="card-body">
         {memory !== null && (
-          <div className="text-sm text-muted-foreground">M = {memory}</div>
+          <div className="small text-muted">M = {memory}</div>
         )}
-        <div className="text-lg text-muted-foreground min-h-[1.5rem]">
+        <div className="fs-5 text-muted min-vh-1">
           {expression}
         </div>
-        <div className="text-3xl font-bold text-right">{result}</div>
+        <div className="fs-1 fw-bold text-end">
+          {result}
+        </div>
       </div>
-    </Card>
+    </div>
   );
 }
