@@ -44,9 +44,5 @@ Graphing Capabilities (Optional):
 
 Allow graphing of equations such as y = mx + b, quadratic equations, and others.
 Include Zoom and Pan options for easier interaction with the graphs.
-Voice Command Input (Optional):
-
-Voice command integration, allowing users to speak their calculations for input.
-AI-Powered Problem Solver (Advanced Feature):
 Incorporate AI-based equation solvers capable of solving algebraic expressions like 2x + 5 = 15.
 Include features for derivatives and integrals (for calculus users).
